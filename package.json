@@ -1,0 +1,27 @@
+{
+  "name": "chat-demo",
+  "version": "1.2.3",
+  "description": "Sample demo of chat based project",
+  "main": "src/main.ts",
+  "scripts": {
+    "start": "node --experimental-strip-types src/main.ts",
+    "build": "tsc && node esbuild.config.js",
+    "debug": "nodemon src/main.ts",
+    "debug2": "nodemon dist/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Boris Ruskov",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@types/ws": "^8.18.1",
+    "esbuild": "^0.25.2",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.3"
+  },
+  "dependencies": {
+    "tsconfig-paths": "^4.2.0",
+    "ws": "^8.18.1"
+  }
+}
