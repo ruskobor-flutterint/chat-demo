@@ -1,5 +1,6 @@
-import Participant from "./Participant";
-import { IMessage } from "../main";
+import { IMessage } from "./models/Message";
+import Participant from "./models/Participant";
+
 import { EventEmitter } from "node:stream";
 
 export default class ChatRoom extends EventEmitter {
@@ -51,17 +52,12 @@ export default class ChatRoom extends EventEmitter {
   disconnectParticipant = (p: Participant) => {
     if (this.participants.has(p)) {
       this.emit("user_unsubscribed");
-      let msg: IMessage = {
-        topic: "System",
-        action: "subscribe",
-        data: "",
-        origin: "string",
-      };
+      let msg: Partial<IMessage> = {};
       this.broadcast(msg);
     }
   };
 
-  broadcast = (message: IMessage) => {
+  broadcast = (message: Partial<IMessage>) => {
     for (const participant of this.participants) {
       participant.ws.send(JSON.stringify(message));
     }

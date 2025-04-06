@@ -1,16 +1,15 @@
-import { WebSocket, ServerOptions, WebSocketServer } from "ws";
-import { IncomingMessage } from "node:http";
-import ChatRoom from "./service/ChatRoom";
 import Log from "./util/Log";
 import LobbyManager from "./service/LobbyManager";
+import { ChatClientWebSocket } from "service/models/ChatClientWebSocket";
+import { WebSocketServer } from "ws";
+import { IncomingMessage } from "node:http";
 
 // ENV
 const WSS_PORT = 3030;
 
 // WS server setup
-const wssOptions: ServerOptions = { port: WSS_PORT };
-Log.info("Starting wsServer on port", wssOptions.port);
-const wsServer: WebSocketServer = new WebSocketServer(wssOptions);
+Log.info("Starting wsServer on port", WSS_PORT);
+const wsServer: WebSocketServer = new WebSocketServer({ port: WSS_PORT });
 
 const lobbyManager = new LobbyManager();
 
@@ -25,15 +24,3 @@ wsServer.on("connection", (ws: ChatClientWebSocket, req: IncomingMessage) => {
     lobbyManager.emit("user_disconnected", {});
   });
 });
-
-export interface IMessage {
-  topic: "System" | "Chat";
-  action: "subscribe" | "unsubscribe";
-  data: string;
-  origin: string;
-}
-
-export interface ChatClientWebSocket extends WebSocket {
-  clientId: string;
-  subscribedTo: ChatRoom[];
-}
