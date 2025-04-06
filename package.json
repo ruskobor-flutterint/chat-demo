@@ -12,6 +12,9 @@
   },
   "author": "Boris Ruskov",
   "license": "ISC",
+  "prettier": {
+    "printWidth": 80
+  },
   "devDependencies": {
     "@types/node": "^22.14.0",
     "@types/ws": "^8.18.1",
