@@ -1,6 +1,6 @@
 import { EventEmitter } from "stream";
-import ChatRoom from "./ChatRoom";
-import Participant from "./models/Participant";
+import ChatRoom from "@service/ChatRoom";
+import Participant from "@models/Participant";
 
 export default class LobbyManager extends EventEmitter {
   rooms: Set<ChatRoom>;

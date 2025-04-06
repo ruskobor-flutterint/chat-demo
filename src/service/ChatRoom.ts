@@ -1,16 +1,21 @@
-import { IMessage } from "./models/Message";
-import Participant from "./models/Participant";
-
-import { EventEmitter } from "node:stream";
+import { EventEmitter } from "node:events";
+import { IMessage } from "@models/Message";
+import Participant from "@models/Participant";
 
 export default class ChatRoom extends EventEmitter {
   private name: string;
   private participants: Set<Participant>;
+  private isPublic: boolean;
 
-  constructor(roomName: string, participants?: Set<Participant>) {
+  constructor(
+    roomName: string,
+    participants?: Set<Participant>,
+    isPublic?: boolean
+  ) {
     super();
     this.name = roomName;
     this.participants = participants ? participants : new Set<Participant>();
+    this.isPublic = isPublic ? true : false;
 
     this.on("user_subscribed", () => {});
 
@@ -22,6 +27,8 @@ export default class ChatRoom extends EventEmitter {
 
     this.on("user_disconnected", () => {});
   }
+
+  getPublicStatus = (): boolean => this.isPublic;
 
   subscribe = (participant: Participant): void => {
     Log?.debug(`Participant ${participant.name} has joined ${this.name} romm.`);

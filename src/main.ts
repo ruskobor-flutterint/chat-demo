@@ -1,6 +1,8 @@
-import Log from "./util/Log";
-import LobbyManager from "./service/LobbyManager";
-import { ChatClientWebSocket } from "service/models/ChatClientWebSocket";
+import Log from "@util/Log";
+import LobbyManager from "@service/LobbyManager";
+import ChatRoom from "@service/ChatRoom";
+import Participant from "@models/Participant";
+import { ChatClientWebSocket } from "@util/ChatClientWebSocket";
 import { WebSocketServer } from "ws";
 import { IncomingMessage } from "node:http";
 
@@ -12,15 +14,18 @@ Log.info("Starting wsServer on port", WSS_PORT);
 const wsServer: WebSocketServer = new WebSocketServer({ port: WSS_PORT });
 
 const lobbyManager = new LobbyManager();
+const generalChatRoom: ChatRoom = new ChatRoom("General");
 
 // General user handling
 wsServer.on("connection", (ws: ChatClientWebSocket, req: IncomingMessage) => {
   //   Log.debug(parse(req.url, true));
-
   ws.clientId = "client-" + Math.floor(Math.random() * 100).toString();
-  ws.send("Hello , " + ws.clientId);
 
+  // const p = new Participant(ws);
+  // generalChatRoom.subscribe(p);
+
+  ws.send("Hello , " + ws.clientId);
   ws.on("close", () => {
-    lobbyManager.emit("user_disconnected", {});
+    lobbyManager.emit("user_disconnected");
   });
 });

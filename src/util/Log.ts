@@ -1,5 +1,5 @@
 declare global {
-  var Log: LogTypes | undefined;
+  var Log: LogTypes;
 }
 
 const Log = (function Log(): LogTypes {

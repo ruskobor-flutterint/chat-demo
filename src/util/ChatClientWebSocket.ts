@@ -1,4 +1,4 @@
-import ChatRoom from "service/ChatRoom";
+import ChatRoom from "@service/ChatRoom";
 import { WebSocket } from "ws";
 
 export interface ChatClientWebSocket extends WebSocket {

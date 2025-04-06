@@ -1,5 +1,5 @@
-import ChatRoom from "../ChatRoom";
-import { ChatClientWebSocket } from "./ChatClientWebSocket";
+import ChatRoom from "@service/ChatRoom";
+import { ChatClientWebSocket } from "@util/ChatClientWebSocket";
 
 export default class Participant {
   name: ParticipantId;
