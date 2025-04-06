@@ -1,6 +1,6 @@
 {
   "name": "chat-demo",
-  "version": "1.2.3",
+  "version": "1.0.0",
   "description": "Sample demo of chat based project",
   "main": "src/main.ts",
   "scripts": {
