@@ -1,50 +1,34 @@
-export interface IMessage {
-  topic: MessageTopics;
-  action: MessageActions;
-  data: Object;
-}
+import { ChatRoomId } from "@service/models/ChatRoom";
+import { ParticipantId } from "./Participant";
 
-export interface IMessage {
-  topic: MessageTopics;
-  action: MessageActions;
-  data: Object;
-}
-
-export enum MessageActions {
-  subscribe,
-  unsubscribe,
-}
-
-export enum MessageTopics {
-  system,
-  chat,
-}
-
-//-----------------------------------------------------
 export type Message = ISystemMessage | IChatMessage;
 
-enum SystemMessageActions {
+export enum SystemMessageActions {
   subscribe,
   unsubscribe,
+  create,
 }
 
-enum ChatMessageAction {
+export enum ChatMessageAction {
   post,
+  join,
+  leave,
 }
 
 interface ISystemMessage extends BaseMessage {
   topic: "system";
   action: SystemMessageActions;
-  participant: string;
-  room: string;
+
+  participant: ParticipantId;
+  room: ChatRoomId;
 }
 
 interface IChatMessage extends BaseMessage {
   topic: "chat";
   action: ChatMessageAction;
-  author: string;
-  timestamp: string | Date;
-  room: string;
+  participant: ParticipantId;
+  ts: string | Date;
+  room: ChatRoomId;
 }
 
 // For any additional quick data additions
