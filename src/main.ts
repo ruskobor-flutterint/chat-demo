@@ -6,7 +6,6 @@ import { WebSocket, WebSocketServer } from "ws";
 import { IncomingMessage } from "node:http";
 import { Message } from "@service/models/Message";
 import * as url from "url";
-import { ParsedUrlQuery } from "node:querystring";
 
 // ENV
 const WSS_PORT = 3030;

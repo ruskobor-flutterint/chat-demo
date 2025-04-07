@@ -1,8 +1,4 @@
-import {
-  ChatRoomMessageAction,
-  IChatRoomMessage,
-  Message,
-} from "@models/Message";
+import { ChatRoomMessageAction, IChatRoomMessage } from "@models/Message";
 import Participant, { ParticipantId } from "@models/Participant";
 
 export default class ChatRoom implements IRoom {
