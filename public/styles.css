@@ -18,8 +18,24 @@ main {
 
 chat {
   padding: 5px;
-  height: 130px;
+  min-height: 150px;
   width: 400px;
   display: grid;
   margin: 25px;
+}
+
+.chat-guests {
+  height: 100px;
+  width: 400px;
+  overflow: auto;
+  background: #d1d1d1;
+  resize: both;
+}
+
+.chat-form {
+  display: flex;
+  background-color: rgb(220, 220, 220);
+  justify-content: center;
+  height: 20px;
+  padding: 5px;
 }

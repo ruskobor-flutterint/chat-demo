@@ -10,32 +10,29 @@
     <header>
       <h1>Chat</h1>
     </header>
-    <form style="display: flex; justify-content: center; margin: 30px">
-      <label for="alias">Chat Alias: </label>
-      <input type="text" if="alias" name="alias" />
-      <input type="submit" value="Enter" />
-      <text id="wsConnectedStatus">Disconnected</text>
+    <form id="guestEnterToChatForm" style="display: flex; justify-content: center; margin: 30px; height:30px">
+      <label for="alias">Chat alias:</label>
+      <input type="text" id="aliasInput" name="alias" />
+      <input type="submit" value="Enter" id="guestSubmitButton" />
     </form>
-    <main>
-      <section id="lobby" style="background-color:rgb(89, 89, 89); border-color: bisque; padding:10px">
-          <div id="lobby_rooms">
-            <text>Lobby rooms --</text>
+    <hl>
+    <text>Status: 
+      <span style="font-size: larger;" id="wsConnectedStatus">Disconnected</span>: 
+      <span style="font-size:medium;" id="loggedUserInfo"></span>
+    </text>
+    <main id="chatRooms">
+      <section id="lobby" style="background-color:rgb(139, 139, 139); padding:10px; margin:10px ">
+          <div>
+            <text style="margin:10px">Lobby rooms:</text>
+            <div id="lobby_rooms">
+            </div>
           </div>
-          <div id="lobby_guests">
-            <text>Guest list ---</text>
+          <div>
+            <text style="margin:10px">Lobby participants: </text>
+            <div id="lobby_guests">
+            </div>
           </div>
       </section>
-      <chat id="sdadad">
-        <label>General</label>
-        <textarea class="">pesho,pesho,peshopeshopeshopeshopesho&#13;&#10;ndasd</textarea>
-        <form style="display:flex; background-color:rgb(220, 220, 220); justify-content: center; height: 20px; padding: 5px ">
-          <text >message: </text>
-          <input type="text" id="alias" name="m" />
-          <input type="submit" value="Submit" />
-          <input type="button" value="Leave" />
-        </form>
-      </chat>
-
     </main>
     <footer>
       <p>Boris Ruskov &copy; 2025 SimpleChatDemo</p>
