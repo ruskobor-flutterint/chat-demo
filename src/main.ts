@@ -5,6 +5,8 @@ import Participant from "@models/Participant";
 import { WebSocket, WebSocketServer } from "ws";
 import { IncomingMessage } from "node:http";
 import { Message } from "@service/models/Message";
+import * as url from "url";
+import { ParsedUrlQuery } from "node:querystring";
 
 // ENV
 const WSS_PORT = 3030;
@@ -30,15 +32,23 @@ lobbyManager.addRoom(generalChatRoom, anouncementChatRoom, memesChatRoom);
 
 // General user handling
 wsServer.on("connection", (ws: WebSocket, req: IncomingMessage) => {
-  //   Log.debug(parse(req.url, true));
+  const params: { alias?: Record<string, string | string[]> } = url.parse(
+    req.url as string,
+    true
+  ).query;
 
-  const clientId = "client-" + Math.floor(Math.random() * 100).toString();
+  const clientId = "client-" + Math.floor(Math.random() * 1000).toString();
+  let clientAlias: string = "";
 
-  const p = new Participant(ws, clientId);
+  // If client alias is provided rewrite the alias
+  if (params?.alias && typeof params?.alias == "string")
+    clientAlias = params.alias;
+
+  const p = new Participant(ws, clientId, clientAlias);
 
   lobbyManager.emit("participant_connect", p);
 
-  ws.send("Hello , " + clientId);
+  ws.send(JSON.stringify({ Hi: clientId }));
 
   ws.on("message", (data) => {
     try {
@@ -50,6 +60,11 @@ wsServer.on("connection", (ws: WebSocket, req: IncomingMessage) => {
   });
 
   ws.on("close", () => {
-    lobbyManager.emit("participant_close_connection", p);
+    lobbyManager.emit("participant_disconnect", p);
   });
+});
+
+// Uncaught exceptions
+process.on("uncaughtException", (err) => {
+  Log.error("Uncaught exception caught: ", err);
 });

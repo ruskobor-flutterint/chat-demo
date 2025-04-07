@@ -1,19 +1,13 @@
-import { ChatMessageAction, Message } from "@models/Message";
+import { ChatRoomMessageAction, Message } from "@models/Message";
 import Participant from "@models/Participant";
 
 export default class ChatRoom implements IRoom {
   readonly name: ChatRoomId;
   readonly participants: Set<Participant>;
-  private _isPublic: boolean;
 
-  constructor(
-    roomName: ChatRoomId,
-    participants?: Set<Participant>,
-    isPublic?: boolean
-  ) {
+  constructor(roomName: ChatRoomId, participants?: Set<Participant>) {
     this.name = roomName;
     this.participants = participants ? participants : new Set<Participant>();
-    this._isPublic = isPublic ? true : false;
   }
 
   dispose = () => this.participants.clear();
@@ -21,14 +15,11 @@ export default class ChatRoom implements IRoom {
   join = (p: Participant) => {
     if (!this.participants.has(p)) {
       Log.debug(
-        `Participant ${p.name} has joined ${this.name}-${
-          this._isPublic ? "public" : "private"
-        } room.`
+        `Participant [id: ${p.id}, alias: ${p.alias}] has joined ${this.name}room.`
       );
-
       p.subscribedTo.add(this);
       this.participants.add(p);
-      this.notifyRoomAboutParticipant(p, "join");
+      this.notifyRoomAboutParticipant(p, ChatRoomMessageAction.joinNotif);
       return true;
     }
     return false;
@@ -37,12 +28,12 @@ export default class ChatRoom implements IRoom {
   leave = (p: Participant) => {
     if (this.participants.has(p)) {
       Log.debug(
-        `Participant ${p.name} has left ${this.name}-${this._isPublic} room.`
+        `Participant [id: ${p.id}, alias: ${p.alias}] has left ${this.name} room.`
       );
 
       p.subscribedTo.delete(this);
       this.participants.delete(p);
-      this.notifyRoomAboutParticipant(p, "leave");
+      this.notifyRoomAboutParticipant(p, ChatRoomMessageAction.leaveNotif);
       return true;
     }
     return false;
@@ -54,29 +45,16 @@ export default class ChatRoom implements IRoom {
 
   notifyRoomAboutParticipant = (
     p: Participant,
-    action: "join" | "leave"
+    action: ChatRoomMessageAction.joinNotif | ChatRoomMessageAction.leaveNotif
   ): void => {
-    const m: Message = {
+    this.broadcast({
       topic: "chat",
-      action: ChatMessageAction.join,
+      action: action,
       room: this.name,
-      participant: p.name,
+      from: p.id,
       ts: new Date().toISOString(),
-    };
-
-    switch (action) {
-      case "join":
-        m.action = ChatMessageAction.join;
-        break;
-      case "leave":
-        m.action = ChatMessageAction.leave;
-        break;
-    }
-
-    this.broadcast(m);
+    });
   };
-
-  isPublic = (): boolean => this._isPublic;
 
   broadcast = (message: Message) => {
     for (const participant of this.participants) {

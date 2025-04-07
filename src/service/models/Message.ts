@@ -1,34 +1,45 @@
 import { ChatRoomId } from "@service/models/ChatRoom";
 import { ParticipantId } from "./Participant";
 
-export type Message = ISystemMessage | IChatMessage;
+export type Message = ISystemMessage | IChatRoomMessage | IDirectMessage;
 
-export enum SystemMessageActions {
+export enum SystemMessageAction {
   subscribe,
   unsubscribe,
-  create,
+  lobby,
 }
 
-export enum ChatMessageAction {
+export enum ChatRoomMessageAction {
   post,
-  join,
-  leave,
+  joinNotif,
+  leaveNotif,
 }
 
-interface ISystemMessage extends BaseMessage {
+export enum DirectMessageAction {
+  post,
+  offline,
+}
+
+export interface IDirectMessage extends BaseMessage {
+  topic: "direct";
+  action: DirectMessageAction;
+  from: ParticipantId;
+  to: ParticipantId;
+}
+
+export interface ISystemMessage extends BaseMessage {
   topic: "system";
-  action: SystemMessageActions;
-
+  action: SystemMessageAction;
   participant: ParticipantId;
   room: ChatRoomId;
 }
 
-interface IChatMessage extends BaseMessage {
+export interface IChatRoomMessage extends BaseMessage {
   topic: "chat";
-  action: ChatMessageAction;
-  participant: ParticipantId;
-  ts: string | Date;
+  action: ChatRoomMessageAction;
   room: ChatRoomId;
+  from: ParticipantId;
+  ts: string | Date;
 }
 
 // For any additional quick data additions
