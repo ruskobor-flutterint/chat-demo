@@ -1,0 +1,25 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 40px;
+  background-color: #e4dcdc;
+}
+header,
+footer {
+  background-color: #555555;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+main {
+  background-color: rgb(121, 121, 121);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+chat {
+  padding: 5px;
+  height: 130px;
+  width: 400px;
+  display: grid;
+  margin: 25px;
+}

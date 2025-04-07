@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>SimpleChatDemo</title>
+  </head>
+  <body>
+    <header>
+      <h1>Chat</h1>
+    </header>
+    <form style="display: flex; justify-content: center; margin: 30px">
+      <label for="alias">Chat Alias: </label>
+      <input type="text" if="alias" name="alias" />
+      <input type="submit" value="Enter" />
+      <text id="wsConnectedStatus">Disconnected</text>
+    </form>
+    <main>
+      <section id="lobby" style="background-color:rgb(89, 89, 89); border-color: bisque; padding:10px">
+          <div id="lobby_rooms">
+            <text>Lobby rooms --</text>
+          </div>
+          <div id="lobby_guests">
+            <text>Guest list ---</text>
+          </div>
+      </section>
+      <chat id="sdadad">
+        <label>General</label>
+        <textarea class="">pesho,pesho,peshopeshopeshopeshopesho&#13;&#10;ndasd</textarea>
+        <form style="display:flex; background-color:rgb(220, 220, 220); justify-content: center; height: 20px; padding: 5px ">
+          <text >message: </text>
+          <input type="text" id="alias" name="m" />
+          <input type="submit" value="Submit" />
+          <input type="button" value="Leave" />
+        </form>
+      </chat>
+
+    </main>
+    <footer>
+      <p>Boris Ruskov &copy; 2025 SimpleChatDemo</p>
+    </footer>
+    <script src="chatAPI.js"></script>
+  </body>
+</html>
