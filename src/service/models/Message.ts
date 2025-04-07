@@ -7,17 +7,22 @@ export enum SystemMessageAction {
   subscribe,
   unsubscribe,
   lobby,
+  leftLobby,
+  joinedLobby,
 }
 
 export enum ChatRoomMessageAction {
   post,
-  joinNotif,
-  leaveNotif,
+  joinNotifFanout,
+  leaveNotifFanout,
+  postFanout,
+  joined,
+  left,
 }
 
 export enum DirectMessageAction {
   post,
-  offline,
+  recieve,
 }
 
 export interface IDirectMessage extends BaseMessage {

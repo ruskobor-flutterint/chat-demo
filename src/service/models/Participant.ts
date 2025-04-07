@@ -35,7 +35,7 @@ export default class Participant<T extends WebSocket = WebSocket> {
         const mStr = JSON.stringify(m);
         this.ws.send(mStr);
         Log.debug(
-          `Message sent to [${this.alias}] [${this.id}] message: ${mStr}`
+          `Message sent to {id: ${this.id}, alias: ${this.alias}} message: ${mStr}`
         );
       } catch (error) {
         Log.error(`Error serializing message ${m}} erro:`, error);

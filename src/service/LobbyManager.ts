@@ -40,9 +40,20 @@ export default class LobbyManager extends EventEmitter {
   }
 
   private registerGuest = (p: Participant) => {
+    // Notify all other lobby participants
+    const m: ISystemMessage = {
+      topic: "system",
+      action: SystemMessageAction.joinedLobby,
+      participant: p.id,
+      room: "",
+      customData: { participantInfo: { id: p.id, alias: p.alias } },
+    };
+    this.broadcast(m);
+
+    // Set new participant
     this.guests.set(p.id, p);
     Log.info(
-      `Participant [id: ${p.id}, alias: ${p.alias}] registered to the lobby.`
+      `Participant {id: ${p.id}, alias: ${p.alias}} registered to the lobby.`
     );
 
     // Get all rooms
@@ -60,20 +71,37 @@ export default class LobbyManager extends EventEmitter {
       room: "",
       customData: { rooms: rooms, guests: guests },
     };
-
-    // Send all available rooms & users
+    // Send all available rooms & users to the newly joined participant;
     p.send(msg);
+
+    // Notify all other lobby participants that new participant has joined
   };
 
   private disconnectGuest = (p: Participant) => {
     if (this.guests.has(p.id)) {
       this.guests.delete(p.id);
+
       p.dispose();
+      const m: ISystemMessage = {
+        topic: "system",
+        action: SystemMessageAction.leftLobby,
+        participant: p.id,
+        room: "",
+        customData: { participantInfo: { id: p.id, alias: p.alias } },
+      };
+
+      this.broadcast(m);
       Log.info(
-        `Participant [id: ${p.id}, alias: ${p.alias}] has disconnected the lobby.`
+        `Participant {id: ${p.id}, alias: ${p.alias}} has disconnected the lobby.`
       );
     }
   };
+
+  private broadcast(m: ISystemMessage) {
+    [...this.guests.values()].forEach((p: Participant) => {
+      p.send(m);
+    });
+  }
 
   readonly addRoom = (...rAgs: ChatRoom[]) => {
     for (const room of rAgs) {
@@ -102,7 +130,7 @@ export default class LobbyManager extends EventEmitter {
   private handleChatRoomMessage = (m: IChatRoomMessage) => {
     switch (m.action) {
       case ChatRoomMessageAction.post:
-        this.rooms.get(m.room)?.broadcast(m);
+        this.rooms.get(m.room)?.message(m);
         break;
       default:
         Log.warn(
@@ -135,7 +163,7 @@ export default class LobbyManager extends EventEmitter {
 
     if (p1 === undefined || p2 === undefined)
       throw `Unavailable participant/s [ ${p1?.id} / ${p2?.id} ]-[ ${fromP}/${toP} ]`;
-
+    m.action = DirectMessageAction.recieve;
     p2.send(m);
   };
 }

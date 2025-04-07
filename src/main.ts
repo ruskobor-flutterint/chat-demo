@@ -48,7 +48,7 @@ wsServer.on("connection", (ws: WebSocket, req: IncomingMessage) => {
 
   lobbyManager.emit("participant_connect", p);
 
-  ws.send(JSON.stringify({ Hi: clientId }));
+  ws.send(JSON.stringify({ Hi: { id: clientId, alias: clientAlias } }));
 
   ws.on("message", (data) => {
     try {
