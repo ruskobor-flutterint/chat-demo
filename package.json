@@ -4,10 +4,10 @@
   "description": "Sample demo of chat based project",
   "main": "src/main.ts",
   "scripts": {
-    "start": "tsc && node esbuild.config.js && node ./dist/main.js",
-    "build": "tsc && node esbuild.config.js",
+    "start": "npx tsc && node esbuild.config.js && node ./dist/main.js",
+    "build": "npx tsc && node esbuild.config.js",
     "debug": "nodemon src/main.ts",
-    "debug2": "nodemon dist/main.js",
+    "debugDist": "nodemon dist/main.js",
     "static": "npx http-server --port 8080 --cache-1 -o ./"
   },
   "author": "Boris Ruskov",
