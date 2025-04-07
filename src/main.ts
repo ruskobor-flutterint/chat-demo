@@ -8,7 +8,7 @@ import { Message } from "@service/models/Message";
 import * as url from "url";
 
 // ENV
-const WSS_PORT = 3030;
+const WSS_PORT: number = process.argv[2] ? parseInt(process.argv[2]) : 3030;
 
 // WS server setup
 Log.info("Starting wsServer on port", WSS_PORT);
